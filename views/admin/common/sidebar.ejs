@@ -1,0 +1,22 @@
+<section id='sidebar'>
+    <i class='icon-align-justify icon-large' id='toggle'></i>
+    <ul id='dock'>
+        <li class='launcher <% if(page=='adminIndex'){ %> active <% } %>'>
+            <i class='icon-dashboard'></i>
+            <a href="/admin">选课状态</a>
+        </li>
+        <li class='launcher <% if(page=='adminStudentsIndex'){ %> active <% } %> '>
+            <i class='icon-file-text-alt'></i>
+            <a href="/admin/students">学生管理</a>
+        </li>
+        <li class=' launcher <% if(page=='adminCourse'){ %> active <% } %> '>
+            <i class='icon-table'></i>
+            <a href="/admin/course">课程管理</a>
+        </li>
+        <li class='launcher <% if(page=='adminReport'){ %> active <% } %> '>
+            <i class='icon-flag'></i>
+            <a href='/admin/report'>报表</a>
+        </li>
+    </ul>
+    <div data-toggle='tooltip' id='beaker' title='Made by lab2023'></div>
+</section>
