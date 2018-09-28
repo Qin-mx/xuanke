@@ -9,8 +9,8 @@
   <meta content='' name='description'>
   <meta content='' name='keywords'>
   <link href="/assets/stylesheets/application-a07755f5.css" rel="stylesheet" type="text/css" />
-  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-
+  <link href="/assets/stylesheets/ui.jqgrid.css" rel="stylesheet" type="text/css" />
+  <link href="/assets/stylesheets/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body class='main page'>
@@ -31,35 +31,146 @@
       <div class='panel panel-default grid'>
         <div class='panel-heading'>
           <i class='icon-table icon-large'></i>
-          导入excel文件
+          学生清单
         </div>
-        <form id="fileform" action="/admin/students/import" enctype="multipart/form-data" method="post">
-          <div class="panel-body">
-            <div class="form-group">
-              <label for="exampleInputFile">上传</label>
-              <input type="file" id="exampleInputFile" name="studentsexcel">
-              <p class="help-block">导入excel格式文件.</p>
-            </div>
-          </div>
-          <div class="panel-footer">
-            <input type="submit" value="上传文件" class="btn btn-info">
-          </div>
-      </form>
+
+        <div class="panpel-tool">
+          <table id="list"></table> 
+        </div>
+        <div class="panel-body">
+          <div id="pager"></div>
+          <table class='table'>
+              <thead>
+                <tr>
+                  <th>学号</th>
+                  <th>姓名</th>
+                  <th>性别</th>
+                  <th>班级</th>
+                  <th class='actions'>
+                    操作
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="tbody">
+                <tr>
+                  <td>1</td>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                  <td class='action'>
+                    <a class='btn btn-success' data-toggle='tooltip' href='javascript:;' title='Zoom'>
+                      <i class='icon-zoom-in'></i>
+                    </a>
+                    <a class='btn btn-info' href='#'>
+                      <i class='icon-edit'></i>
+                    </a>
+                    <a class='btn btn-danger' href='#' data-sid="sid">
+                      <i class='icon-trash'></i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class='panel-footer'>
+                <ul class='pagination pagination-sm'>
+                  <li>
+                    <a href='#'>«</a>
+                  </li>
+                  <li class='active'>
+                    <a href='#'>1</a>
+                  </li>
+                  <li>
+                    <a href='#'>2</a>
+                  </li>
+                  <li>
+                    <a href='#'>3</a>
+                  </li>
+                  <li>
+                    <a href='#'>4</a>
+                  </li>
+                  <li>
+                    <a href='#'>5</a>
+                  </li>
+                  <li>
+                    <a href='#'>6</a>
+                  </li>
+                  <li>
+                    <a href='#'>7</a>
+                  </li>
+                  <li>
+                    <a href='#'>8</a>
+                  </li>
+                  <li>
+                    <a href='#'>»</a>
+                  </li>
+                </ul>
+                <div class='pull-right'>
+                  当前页数 1 总页数10 共 32 条
+                </div>
+              </div>
+        </div>
+
       </div>
     </div>
   </div>
 
   <!-- jQuery -->
   <script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
-
+  <script src="/js/jquery.jqGrid.src.js"></script>
   <!-- Bootstrap Core JavaScript -->
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script>
-    $('#fileform').on('submit',function(){
-      if(!confirm('当前操作会重置数据库，确定要操作吗？')){
-        return false;
-      }
+    // 定义数组
+    var gradeArr = ['初一','初二','初三','高一','高二','高三'];
+    // 定义变量
+    var page = 1,
+        pageSize = 20;
+    $.get({url:'/students?page='+page+'&pageSize='+pageSize},function(res){
+        if( res.code == 200 ){
+          var data = res.results;
+          var total = data.length;
+          var html = '';          
+          for( var i = 0; i< data.length ; i++){
+            html += `   <tr>
+                  <td>${data[i].sid}</td>
+                  <td>${data[i].name}</td>
+                  <td>${data[i].sex}</td>
+                  <td>${gradeArr[data[i].grade-1]}</td>
+                  <td class='action'>
+                    <a class='btn btn-success' data-toggle='tooltip' href='javascript:;' title='Zoom'>
+                      <i class='icon-zoom-in'></i>
+                    </a>
+                    <a class='btn btn-info' href='#'>
+                      <i class='icon-edit'></i>
+                    </a>
+                    <a class='btn btn-danger' href='#' data-sid="sid">
+                      <i class='icon-trash'></i>
+                    </a>
+                  </td>
+                </tr>`
+          }
+          $('.tbody').append(html)
+        }else{
+          alert(res.msg)
+        }
+      
     })
+    
+    // 点击编辑
+
+    // 点击查看
+
+    // 点击删除
+    $('.btn-danger').on('click',function(e){
+      if (!confirm('当前数据将无法恢复，确定删除吗？')) {
+        return false;
+      }else{
+        console.log($(this).data('sid'))
+      }
+      
+    })
+
   </script>
 </body>
 

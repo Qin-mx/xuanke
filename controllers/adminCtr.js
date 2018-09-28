@@ -1,9 +1,11 @@
 const formidable = require('formidable')
 const path = require('path')
 const fs = require('fs')
+const url = require('url')
 
 // 导入xlsx处理模块
 const xlsx  = require('node-xlsx')
+const Student = require('./../modles/Students.js');
 
 exports.showAdminHome = (req,res)=>{
     res.render('admin/index',{
@@ -11,8 +13,8 @@ exports.showAdminHome = (req,res)=>{
     })
 }
 
-exports.showAdminStudents = (req,res)=>{
-    res.render('admin/students',{
+exports.showAdminStudentsImport= (req,res)=>{
+    res.render('admin/studentsImport',{
         page: 'adminStudentsIndex'
     })
 }
@@ -33,8 +35,8 @@ exports.showAdminReport = (req,res)=>{
 
 // 管理员学生管理 - 路由
 
-exports.showAdminStudentsImport = (req,res)=>{
-    res.render('admin/studentsImport',{
+exports.showAdminStudents = (req,res)=>{
+    res.render('admin/students',{
         page: 'adminStudentsIndex'
     })
 }
@@ -88,9 +90,52 @@ exports.doAdminStudentsImport = (req,res)=>{
                 //     return
                 // }
             }
-            res.json({
-                results: workSheetsFromBuffer
-            })
+            Student.importStudent(workSheetsFromBuffer)
+            res.send('上传成功，请到学生清单查看');
+            // res.json({
+            //     results: workSheetsFromBuffer
+            // })
         }
     });
+}
+
+// 获取全部数据
+exports.doStudentShow = function( req, res){
+    // 获取参数
+    var pageSize = parseInt(url.parse(req.url,true).query.pageSize)
+        page = parseInt(url.parse(req.url,true).query.page -1);
+        console.log(pageSize,page)
+    Student.estimatedDocumentCount({},function(err,count){
+        if(err) {
+            res.json({
+                msg: '获取数据失败',
+                code: '404'
+            })
+        }else{
+            Student.find({}).limit(pageSize).skip(page * pageSize).exec(function(err,results){
+                if( err ){
+                    res.json({
+                        msg: '获取数据失败',
+                        code: '404'
+                    })
+                }else{
+                    res.json({
+                        msg: '获取数据成功',
+                        code: '200',
+                        results,
+                        size: Math.ceil(count/pageSize),
+                        total: count,
+                        
+                    })
+                }
+            })
+        }
+    })
+
+}
+
+// 删除数据
+
+exports.doStudentRemove = function(req,res){
+
 }

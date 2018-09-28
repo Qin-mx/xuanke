@@ -33,6 +33,7 @@ app.get('/admin/report',adminCtr.showAdminReport)
 // 管理员学生管理 - 路由
 app.get('/admin/students/import',adminCtr.showAdminStudentsImport)
 app.get('/admin/students/info',adminCtr.showAdminStudentsInfo)
+app.get('/students', adminCtr.doStudentShow)
 app.post('/admin/students/import',adminCtr.doAdminStudentsImport)
 
 // 静态资源
