@@ -11,7 +11,16 @@
   <link href="/assets/stylesheets/application-a07755f5.css" rel="stylesheet" type="text/css" />
   <link href="/assets/stylesheets/ui.jqgrid.css" rel="stylesheet" type="text/css" />
   <link href="/assets/stylesheets/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="/assets/stylesheets/pagecommon.css">
 </head>
+<style>
+  .student .modal-dialog{
+    margin: 200px auto;
+  }
+  .student .input-group{
+    margin: 10px 0;
+  }
+</style>
 
 <body class='main page'>
   <% include common/header.ejs %>
@@ -23,7 +32,7 @@
       <ul class='breadcrumb' id='breadcrumb'>
         <li class='title'>学生清单</li>
         <li><a href="/admin/students/import">导入学生</a></li>
-        <li><a href="/admin/students/info">生成学生</a></li>
+        <li><a href="/admin/students/info">添加学生</a></li>
       </ul>
     </section>
     <!-- Content -->
@@ -34,143 +43,284 @@
           学生清单
         </div>
 
-        <div class="panpel-tool">
-          <table id="list"></table> 
+        <div class="panpel-tool" style="margin: 20px 20px 0">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="input-group">
+                <input type="text" class="form-control searchVal" placeholder="Search for...">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" id="search" type="button">查询</button>
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="panel-body">
           <div id="pager"></div>
           <table class='table'>
-              <thead>
-                <tr>
-                  <th>学号</th>
-                  <th>姓名</th>
-                  <th>性别</th>
-                  <th>班级</th>
-                  <th class='actions'>
-                    操作
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="tbody">
-                <tr>
-                  <td>1</td>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td class='action'>
-                    <a class='btn btn-success' data-toggle='tooltip' href='javascript:;' title='Zoom'>
-                      <i class='icon-zoom-in'></i>
-                    </a>
-                    <a class='btn btn-info' href='#'>
-                      <i class='icon-edit'></i>
-                    </a>
-                    <a class='btn btn-danger' href='#' data-sid="sid">
-                      <i class='icon-trash'></i>
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <thead>
+              <tr>
+                <th>学号</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>班级</th>
+                <th>初始密码</th>
+                <th class='actions'>
+                  操作
+                </th>
+              </tr>
+            </thead>
+            <tbody class="tbody">
+            </tbody>
+          </table>
 
-            <div class='panel-footer'>
-                <ul class='pagination pagination-sm'>
-                  <li>
-                    <a href='#'>«</a>
-                  </li>
-                  <li class='active'>
-                    <a href='#'>1</a>
-                  </li>
-                  <li>
-                    <a href='#'>2</a>
-                  </li>
-                  <li>
-                    <a href='#'>3</a>
-                  </li>
-                  <li>
-                    <a href='#'>4</a>
-                  </li>
-                  <li>
-                    <a href='#'>5</a>
-                  </li>
-                  <li>
-                    <a href='#'>6</a>
-                  </li>
-                  <li>
-                    <a href='#'>7</a>
-                  </li>
-                  <li>
-                    <a href='#'>8</a>
-                  </li>
-                  <li>
-                    <a href='#'>»</a>
-                  </li>
-                </ul>
-                <div class='pull-right'>
-                  当前页数 1 总页数10 共 32 条
-                </div>
-              </div>
+          <div class='panel-footer' style="min-height: 66px;">
+            <div id="pagenavbox"></div>
+            <div class='pull-right'>
+            </div>
+          </div>
         </div>
-
+      </div>
+    </div>
+    <!-- 模态框 -->
+    <!-- Modal -->
+    <div class="student">
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-addon">学号</span>
+                    <input type="text" id="user_sid" class="form-control" disabled aria-describedby="basic-addon1">
+                </div>
+              <div class="input-group">
+                <span class="input-group-addon">姓名</span>
+                <input type="text" id="user_name" class="form-control" placeholder="请输入姓名" aria-describedby="basic-addon1">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">性别</span>
+                <input type="text" id="user_sex" class="form-control" placeholder="请输入性别" aria-describedby="basic-addon1">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">年级</span>
+                <!-- <input type="text" id="user_grade" class="form-control" placeholder="请输入年级" aria-describedby="basic-addon1">-->
+                <select class="form-control" id="user_grade" >
+                  <option value="1">初一</option>
+                  <option value="2">初二</option>
+                  <option value="3">初三</option>
+                  <option value="4">高一</option>
+                  <option value="5">高二</option>
+                  <option value="6">高三</option>
+                </select> 
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-primary">确定</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- jQuery -->
-  <script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <script src="/js/jquery.jqGrid.src.js"></script>
   <!-- Bootstrap Core JavaScript -->
-  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- 引入页码工具 -->
+  <script type="text/javascript" src="/js/PageNav.js"></script>
+
   <script>
     // 定义数组
-    var gradeArr = ['初一','初二','初三','高一','高二','高三'];
+    var gradeArr = ['','初一', '初二', '初三', '高一', '高二', '高三'];
     // 定义变量
     var page = 1,
-        pageSize = 20;
-    $.get({url:'/students?page='+page+'&pageSize='+pageSize},function(res){
-        if( res.code == 200 ){
+      pageSize = 20;
+    var flag = true; // 开关，判断是否需要开启回调
+    var total, size; // 总数和当前共多少页
+    var Newpage = 1; //当前选中的页数
+    var keyword = ''; // 定义输入查询
+    load(page)
+
+    function load(page) {
+      $.get({
+        url: '/students?page=' + page + '&pageSize=' + pageSize + '&keyword=' + keyword
+      }, function (res) {
+        if (res.code == 200) {
           var data = res.results;
-          var total = data.length;
-          var html = '';          
-          for( var i = 0; i< data.length ; i++){
-            html += `   <tr>
+          total = res.total;
+          size = res.size;
+          var html = '';
+          // 处理导航
+          $('.panel-footer .pull-right').html(`当前页数 ${page} 总页数${size} 共 ${total} 条`)
+          // 每一次进入都先清空掉
+          $('.tbody').empty()
+          for (var i = 0; i < data.length; i++) {
+            html +=
+              `   <tr>
                   <td>${data[i].sid}</td>
                   <td>${data[i].name}</td>
                   <td>${data[i].sex}</td>
-                  <td>${gradeArr[data[i].grade-1]}</td>
+                  <td>${gradeArr[data[i].grade]}</td>
+                  <td>${data[i].password}</td>
                   <td class='action'>
-                    <a class='btn btn-success' data-toggle='tooltip' href='javascript:;' title='Zoom'>
+                    <a class='btn btn-success' data-sid='${data[i].sid}' data-toggle="modal" data-target="#myModal" data-name="${data[i].name}" data-sex="${data[i].sex}" data-grade="${data[i].grade}" href='javascript:;' title='Zoom'>
                       <i class='icon-zoom-in'></i>
                     </a>
-                    <a class='btn btn-info' href='#'>
+                    <a class='btn btn-info' href='#' data-sid='${data[i].sid}' data-toggle="modal" data-target="#myModal" data-name="${data[i].name}" data-sex="${data[i].sex}" data-grade="${data[i].grade}">
                       <i class='icon-edit'></i>
                     </a>
-                    <a class='btn btn-danger' href='#' data-sid="sid">
+                    <a class='btn btn-danger' href='#' data-sid='${data[i].sid}'>
                       <i class='icon-trash'></i>
                     </a>
                   </td>
                 </tr>`
           }
-          $('.tbody').append(html)
-        }else{
-          alert(res.msg)
+          $('.tbody').append(html);
+          if (flag && total > 1) {
+            // 只需要加载一次，就是刚加入的时候
+            new PageNav({
+              boxid: 'pagenavbox', // 当前元素的id
+              page: page, // 当前页数
+              pageAmount: res.size, //总页数 
+              change: (num) => {
+                flag = false;
+                Newpage = num
+                load(num) // 这个是ajax请求
+              }
+            })
+          }
+          // 判断当前上一页下一页的状态
+          if (page == 1) {
+            $('#pagenavbox a:first-child').addClass('disBtn')
+            $('#pagenavbox a:last-child').removeClass('disBtn')
+          } else {
+            if (page == res.size) {
+              $('#pagenavbox a:first-child').removeClass('disBtn')
+              $('#pagenavbox a:last-child').addClass('disBtn')
+            } else {
+              $('#pagenavbox a:first-child').removeClass('disBtn')
+              $('#pagenavbox a:last-child').removeClass('disBtn')
+            }
+          }
         }
-      
-    })
-    
-    // 点击编辑
 
+      })
+    }
+    console.log($('.tbody .btn-info')[0])
+    // 点击编辑
+    $('.tbody').on('click', '.btn-info', function (e) {
+      // 获取当前选择元素的sid
+      var sid = $(this).attr('data-sid');
+      // 当前选择的
+      var options = $(this).attr('data-grade');
+      console.log(options)
+      // 将当前数据赋值
+      $('#user_sid').val(sid);
+      $('#user_name').val($(this).attr('data-name')).prop({disabled: false});
+      $('#user_sex').val($(this).attr('data-sex')).prop({disabled: false});
+      $('#user_grade').val(options).prop({disabled: false});
+      $('#myModalLabel').html('编辑信息');
+      $('.modal .btn-default').show();
+
+      console.log('编辑当前数据' + $('#user_sid').val())
+    })
+  
+    // 点击确定按钮，实现编辑
+    $('.modal .btn-primary').on('click',function(){
+        if(!$('#user_name').val()){
+          return alert('学生姓名不能为空')
+        }
+
+        if(!$('#user_sex').val()){
+          return alert('学生性别不能为空')
+        }
+
+        if(!$('#user_grade').val()){
+          return alert('学生年级不能为空')
+        }
+        $.ajax({
+          type: "post",
+          url:'/students/' + $('#user_sid').val(),
+          data:{
+            name:  $('#user_name').val(),
+            sex:  $('#user_sex').val(),
+            grade: $('#user_grade').val(),
+          },
+          success:function(res){
+           if(res.code == 200){
+            flag = false;
+            load(Newpage)
+            $('#myModal').modal('hide');
+           }
+           alert(res.msg)
+          },
+          fail: (err)=>{
+            console.log(err)
+          }
+        })
+    })
     // 点击查看
+    $('.tbody').on('click', '.btn-success', function (e) {
+      // 获取当前选择元素的sid
+      var sid = $(this).attr('data-sid');
+      // 当前选择的
+      var options = $(this).attr('data-grade');
+      // 将当前数据赋值
+      $('#user_sid').val(sid);
+      $('#user_name').val($(this).attr('data-name')).prop({disabled: true});
+      $('#user_sex').val($(this).attr('data-sex')).prop({disabled: true});
+      $('#user_grade').val(options).prop({disabled: true});
+      $('#myModalLabel').html('查看信息');
+      $('.modal .btn-default').hide();
+    })
 
     // 点击删除
-    $('.btn-danger').on('click',function(e){
+    $('.tbody').on('click', '.btn-danger', function (e) {
+      var that = $(this);
       if (!confirm('当前数据将无法恢复，确定删除吗？')) {
         return false;
-      }else{
-        console.log($(this).data('sid'))
+      } else {
+        var sid =  $(this).attr('data-sid')
+          console.log(sid);
+          
+        // 调用删除接口
+        $.ajax({
+          type: 'delete',
+          url:'/students/' + sid,
+          success:function(res){
+           if(res.code == 200){
+            //  删除当前的
+            flag = false;
+            load(Newpage)
+           }
+             alert(res.msg)
+          },
+          fail: (err)=>{
+            console.log(err)
+          }
+        })
+
       }
-      
     })
 
+    // 模糊查询
+    $('.searchVal').on('input',function(){
+      keyword = $('.searchVal').val() 
+      $('#pagenavbox').empty()
+        load(Newpage)
+      })
+    $('#searchVal').click(function(){
+      keyword = $('.searchVal').val()
+      flag = false;
+      load(Newpage)
+    })
   </script>
 </body>
 

@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 // 创建schema
 const StudentSchema = new mongoose.Schema({
-    "sid": Number,
+    "sid": String,
     "name": String,
     "sex": String,
-    "grade": Number , // 定义 1- 初一 ； 2 - 初二 ； 3 - 初三； 4 - 高一； 5 - 高二； 6- 高三
+    "grade": String , // 定义 1- 初一 ； 2 - 初二 ； 3 - 初三； 4 - 高一； 5 - 高二； 6- 高三
     "password": String,
     'noPassword': Boolean,
 })
@@ -40,6 +40,16 @@ StudentSchema.statics.importStudent = function(data){
         }
     })
 }
+
+// 验证是否冲突
+StudentSchema.statics.checkedSid = function(data,callback) {
+    this.find({"sid":data},function(err,results){
+        // 如果没有返回true,
+        // 如果有返回false
+        callback(results.length == 0);
+    })
+}
+
 
 // 创建模型
 const Student = mongoose.model('Student',StudentSchema);

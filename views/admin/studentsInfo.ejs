@@ -12,18 +12,24 @@
   <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
 </head>
+<style>
+
+  .form-group .input-group{
+      margin: 10px 0;
+    }
+  </style>
 
 <body class='main page'>
-    <% include common/header.ejs %>
-    <div id='wrapper'>
-      <!-- Sidebar -->
+  <% include common/header.ejs %>
+  <div id='wrapper'>
+    <!-- Sidebar -->
     <% include common/sidebar.ejs %>
     <!-- Tools -->
     <section id='tools'>
       <ul class='breadcrumb' id='breadcrumb'>
-        <li ><a href="/admin/students">学生清单</a></li>
+        <li><a href="/admin/students">学生清单</a></li>
         <li><a href="/admin/students/import">导入学生</a></li>
-        <li class='title'>生成学生</li>
+        <li class='title'>添加学生</li>
       </ul>
     </section>
     <!-- Content -->
@@ -31,373 +37,46 @@
       <div class='panel panel-default grid'>
         <div class='panel-heading'>
           <i class='icon-table icon-large'></i>
-          Default Table
-          <div class='panel-tools'>
-            <div class='btn-group'>
-              <a class='btn' href='#'>
-                <i class='icon-wrench'></i>
-                Settings
-              </a>
-              <a class='btn' href='#'>
-                <i class='icon-filter'></i>
-                Filters
-              </a>
-              <a class='btn' data-toggle='toolbar-tooltip' href='#' title='Reload'>
-                <i class='icon-refresh'></i>
-              </a>
-            </div>
-            <div class='badge'>3 record</div>
-          </div>
+          添加学生
         </div>
         <div class='panel-body filters'>
-          <div class='row'>
-            <div class='col-md-9'>
-              Add your custom filters here...
-            </div>
-            <div class='col-md-3'>
-              <div class='input-group'>
-                <input class='form-control' placeholder='Quick search...' type='text'>
-                <span class='input-group-btn'>
-                  <button class='btn' type='button'>
-                    <i class='icon-search'></i>
-                  </button>
-                </span>
+          <div class="form-group">
+            <div class="col-lg-4">
+              <div class="input-group">
+                <span class="input-group-addon">学号</span>
+                <input type="text" id="user_sid" class="form-control" checkVaild placeholder="请输入学号" aria-describedby="basic-addon1">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">姓名</span>
+                <input type="text" id="user_name" class="form-control" checkVaild placeholder="请输入姓名" aria-describedby="basic-addon1">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">性别</span>
+                <input type="text" id="user_sex" class="form-control" checkVaild placeholder="请输入性别" aria-describedby="basic-addon1">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">年级</span>
+                <select class="form-control" id="user_grade">
+                  <option value="1">初一</option>
+                  <option value="2">初二</option>
+                  <option value="3">初三</option>
+                  <option value="4">高一</option>
+                  <option value="5">高二</option>
+                  <option value="6">高三</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">密码</span>
+                <input type="text" id="user_pass" class="form-control" checkVaild placeholder="请输入密码" aria-describedby="basic-addon1">
               </div>
             </div>
           </div>
+
         </div>
-        <table class='table'>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-              <th class='actions'>
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class='success'>
-              <td>1</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr class='danger'>
-              <td>2</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr class='warning'>
-              <td>3</td>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr class='active'>
-              <td>4</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr class='disabled'>
-              <td>5</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>6</td>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>7</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>8</td>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>9</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
         <div class='panel-footer'>
-          <ul class='pagination pagination-sm'>
-            <li>
-              <a href='#'>«</a>
-            </li>
-            <li class='active'>
-              <a href='#'>1</a>
-            </li>
-            <li>
-              <a href='#'>2</a>
-            </li>
-            <li>
-              <a href='#'>3</a>
-            </li>
-            <li>
-              <a href='#'>4</a>
-            </li>
-            <li>
-              <a href='#'>5</a>
-            </li>
-            <li>
-              <a href='#'>6</a>
-            </li>
-            <li>
-              <a href='#'>7</a>
-            </li>
-            <li>
-              <a href='#'>8</a>
-            </li>
-            <li>
-              <a href='#'>»</a>
-            </li>
-          </ul>
-          <div class='pull-right'>
-            Showing 1 to 10 of 32 entries
-          </div>
+          <button type="button" class="btn btn-default btn-cz">重置</button>
+          <button type="button" class="btn btn-primary btn-sure" disabled>确定</button>
         </div>
-      </div>
-      <div class='panel panel-default grid'>
-        <div class='panel-heading'>
-          <i class='icon-table icon-large'></i>
-          Padding Table
-        </div>
-        <table class='table'>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class='panel panel-default grid'>
-        <div class='panel-heading'>
-          <i class='icon-table icon-large'></i>
-          Bordered Table
-        </div>
-        <div class='panel-body'>
-          <table class='table table-bordered'>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class='panel panel-default grid'>
-        <div class='panel-heading'>
-          <i class='icon-table icon-large'></i>
-          Condensed Table
-        </div>
-        <table class='table table-condensed'>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
   </div>
@@ -407,6 +86,148 @@
 
   <!-- Bootstrap Core JavaScript -->
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script>
+    // 设置一个不合法的对象
+    var invaild = {
+      sid: true,
+      name: true,
+      sex: true,
+      password: true,
+    }
+
+    // 设置提示框操作
+    $.fn.extend({
+      danger: function (text) {
+        return this.parent().after(
+          "<div class='alert alert-danger' role='alert' style='padding: 5px 15px;margin-bottom: 10px;'>" + text +
+          "</div>")
+      },
+      success: function (text) {
+        return this.parent().after(
+          "<div class='alert alert-success' role='alert' style='padding: 5px 15px;margin-bottom: 10px;'>" +
+          text + "</div>")
+      },
+      clearTip: function () {
+        return this.parent().next('.alert').remove()
+      }
+    })
+
+    // 定义正则表达式
+    var regSid = /^[\d]{9}$/,
+      regName = /^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/,
+      regPass = /^[0-9a-zA-Z]{6}$/,
+      regSex=/^(男|女)$/;
+
+    // 当学号失去焦点以后，
+    $('#user_sid').blur(function () {
+      var _sid = $(this).val();
+      // 判断
+      if (regSid.test(_sid)) {
+        // 如果是合法的
+        invaild.sid = false;
+        $(this).success('正确')
+      } else {
+        // 不合法的
+        invaild.sid = true;
+        $(this).danger('学号应该是9位数字')
+      }
+    })
+    // 校验姓名是否正确
+    $('#user_name').blur(function () {
+      var _name = $(this).val();
+      // 判断
+      if (regName.test(_name)) {
+        // 如果是合法的
+        invaild.name = false;
+        $(this).success('正确')
+      } else {
+        // 不合法的
+        invaild.name = true;
+        $(this).danger('请输入正确的姓名表达式')
+      }
+    })
+     // 性别验证
+    $('#user_sex').blur(function(){
+      var _sex = $(this).val();
+      // 判断
+      if (regSex.test(_sex)) {
+        // 如果是合法的
+        invaild.sex = false;
+        $(this).success('正确')
+      } else {
+        // 不合法的
+        invaild.sex = true;
+        $(this).danger('请输入正确的性别')
+      }
+    })
+    // 密码验证
+    $('#user_pass').blur( function(){
+      var _password = $(this).val();
+      if(regPass.test(_password)){
+        invaild.password = false;
+        $(this).success('正确')
+      }else{
+         // 不合法的
+         invaild.password = true;
+        $(this).danger('密码格式为6位长度的字符')
+      }
+    })
+
+    // 在获取焦点的时候移除
+    $('[checkVaild]').focus(function () {
+      $(this).clearTip()
+    })
+    // 判断当前状态是否可以提交
+    $('[checkVaild]').blur(() => {
+      var allCheck = true; // 定义一个变量表示当前的数据时完成的
+
+            console.log(invaild)
+      for (var k in invaild) {
+        if (invaild[k]) {
+          allCheck = false;
+          break;
+        }
+      }
+      if (allCheck) {
+        $('.btn-sure').attr('disabled', false)
+      } else {
+        $('.btn-sure').attr('disabled', true)
+      }
+    })
+
+    // 重置
+    function clearDIVBtn(){
+      $('input[type="text"]').val('')
+      $('[checkVaild]').clearTip()
+    }
+    $('.btn-cz').click(() => {
+      clearDIVBtn()
+    });
+
+    $('.btn-sure').click(function () {
+      // 获取当前数据的信息
+      var sid = $('#user_sid').val();
+      var name = $('#user_name').val();
+      var sex = $('#user_sex').val();
+      var grade = $('#user_grade').val();
+      var password = $('#user_pass').val();
+
+      // 发送请求
+      $.post('/students', {
+        sid: sid,
+        name: name,
+        grade: grade,
+        sex: sex,
+        password: password
+      }, (res) => {
+        if (res.code == 200) {
+          clearDIVBtn()
+        }
+        alert(res.msg)
+      })
+    })
+  </script>
 </body>
 
 </html>

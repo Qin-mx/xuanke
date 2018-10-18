@@ -33,9 +33,14 @@ app.get('/admin/report',adminCtr.showAdminReport)
 // 管理员学生管理 - 路由
 app.get('/admin/students/import',adminCtr.showAdminStudentsImport)
 app.get('/admin/students/info',adminCtr.showAdminStudentsInfo)
-app.get('/students', adminCtr.doStudentShow)
 app.post('/admin/students/import',adminCtr.doAdminStudentsImport)
 
+app.get('/students', adminCtr.getAllStudents) // 得到所有学生信息
+app.post('/students',adminCtr.addStudent) //增加学生
+// app.get('/students/111') // 查询当前学生
+app.post('/students/:sid',adminCtr.updateStudent) // 修改数据
+app.delete('/students/:sid',adminCtr.RemoveStudent) // 删除数据
+// app.propfind('/students/111') // 查询是否存在
 // 静态资源
 app.use(express.static('public'))
 
@@ -46,4 +51,4 @@ app.use( (req,res)=>{
 // 监听
 app.listen(3000,'127.0.0.1')
 
-console.log('http://127.0.0.1:3000')
+console.log('http://127.0.0.1:3000/admin')

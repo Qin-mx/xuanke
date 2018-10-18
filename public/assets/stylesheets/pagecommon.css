@@ -1,0 +1,29 @@
+#pagenavbox{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#pagenavbox a{
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    /* color: #337ab7; */
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+#pagenavbox .cur{
+    color: #117964;
+}
+#pagenavbox .disBtn{
+    color: #ccc;
+    cursor:not-allowed;
+}
+#pagenavbox .disBtn:hover{
+    color: #ccc;
+}
+#pagenavbox .disBtn:focus{
+    color: #ccc;
+}
