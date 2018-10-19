@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html class='no-js' lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+  <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+  <title>选课系统</title>
+  <meta content='lab2023' name='author'>
+  <meta content='' name='description'>
+  <meta content='' name='keywords'>
+  <link href="/assets/stylesheets/application-a07755f5.css" rel="stylesheet" type="text/css" />
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="/assets/stylesheets/pagecommon.css">
+</head>
+<style>
+  .student .modal-dialog{
+      margin: 200px auto;
+    }
+    .student .input-group{
+      margin: 10px 0;
+    }
+  </style>
+
+<body class='main page'>
+  <% include ../common/header.ejs %>
+  <div id='wrapper'>
+    <!-- Sidebar -->
+    <% include ../common/sidebar.ejs %>
+    <!-- Tools -->
+    <section id='tools'>
+      <ul class='breadcrumb' id='breadcrumb'>
+        <li class='title'>选课状态</li>
+        <li><a href="/admin/course/import">导入选课内容</a></li>
+        <li class='active'><a href="/admin/course/add">添加</a></li>
+      </ul>
+    </section>
+    <!-- Content -->
+    <div id='content'>
+      <div class='panel panel-default grid'>
+        <div class='panel-heading'>
+          <i class='icon-table icon-large'></i>
+          选课清单
+        </div>
+
+        <div class="panpel-tool" style="margin: 20px 20px 0">
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="input-group">
+                <input type="text" class="form-control searchVal" placeholder="Search for...">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" id="search" type="button">查询</button>
+                </span>
+              </div>
+            </div>
+            <!-- <div class="col-sm-4">
+                <div class="input-group">
+                  <a href="/students/download" rel="external" target="_blank" class="btn btn-success" id="down-exc" type="button">下载excel文件</a>
+                </div>
+              </div> -->
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="pager"></div>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th width="5%">编号</th>
+                <th width="10%">名称</th>
+                <th width="10%">日期</th>
+                <th width="5%">人数</th>
+                <th width="15%">年级</th>
+                <th width="10%">教师</th>
+                <th>简介</th>
+                <th class='actions'>
+                  操作
+                </th>
+              </tr>
+            </thead>
+            <tbody class="tbody">
+            </tbody>
+          </table>
+
+          <div class='panel-footer' style="min-height: 66px;">
+            <div id="pagenavbox"></div>
+            <div class='pull-right'>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 模态框 -->
+    <!-- Modal -->
+    <div class="student">
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+              <div class="input-group">
+                <span class="input-group-addon">名称</span>
+                <input type="text" id="user_name" class="form-control" aria-describedby="basic-addon1"placeholder="请输入课程名称">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">日期</span>
+                <select class="form-control" id="user_dayofweek" >
+                    <option value="周一">周一</option>
+                    <option value="周二">周二</option>
+                    <option value="周三">周三</option>
+                    <option value="周四">周四</option>
+                    <option value="周五">周五</option>
+                  </select> 
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">人数</span>
+                <input type="text" id="user_number" class="form-control" placeholder="请输入性别" aria-describedby="basic-addon1">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">年级</span>
+                <div class="form-control">
+                  <span>
+                      <input type="checkbox" name="grade" value="初一">
+                      <span>初一</span>
+                  </span>
+                  <span>
+                      <input type="checkbox" name="grade" value="初二">
+                      <span>初二</span>
+                  </span>
+                  <span>
+                      <input type="checkbox" name="grade" value="初三">
+                      <span>初三</span>
+                  </span>
+
+                  <span>
+                      <input type="checkbox" name="grade" value="高一">
+                      <span>高一</span>
+                  </span>
+                  <span>
+                      <input type="checkbox" name="grade" value="高二">
+                      <span>高二</span>
+                  </span> <span>
+                      <input type="checkbox" name="grade" value="高三">
+                      <span>高三</span>
+                  </span>
+              </div>
+              </div>
+              <div class="input-group">
+                  <span class="input-group-addon">教师</span>
+                  <input type="text" id="user_teacher" class="form-control" placeholder="请输入教师" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon">简介</span>
+                  <textarea name="briefintro" class="form-control" id="briefintro" cols="30" rows="10" placeholder="请编辑简介" style="width:100%;float: left;resize: none"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-primary">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- 引入页码工具 -->
+  <script type="text/javascript" src="/js/PageNav.js"></script>
+  <script>
+    // 定义变量
+    var page = 1,
+      pageSize = 20;
+    var flag = true; // 开关，判断是否需要开启回调
+    var total, size; // 总数和当前共多少页
+    var Newpage = 1; //当前选中的页数
+    var keyword = ''; // 定义输入查询
+    load(page)
+    // 定义函数 -- 分页
+    function pageShow(res) {
+      new PageNav({
+        boxid: 'pagenavbox', // 当前元素的id
+        page: page, // 当前页数
+        pageAmount: res.size, //总页数 
+        change: (num) => {
+          flag = false;
+          Newpage = num
+          load(num) // 这个是ajax请求
+        }
+      })
+
+      // 判断当前上一页下一页的状态
+      if (page == 1) {
+        $('#pagenavbox a:first-child').addClass('disBtn')
+        if (res.size == 1) {
+          $('#pagenavbox a:last-child').addClass('disBtn')
+        } else {
+          $('#pagenavbox a:last-child').removeClass('disBtn')
+        }
+
+      } else {
+        if (page == res.size) {
+          $('#pagenavbox a:first-child').removeClass('disBtn')
+          $('#pagenavbox a:last-child').addClass('disBtn')
+        } else {
+          $('#pagenavbox a:first-child').removeClass('disBtn')
+          $('#pagenavbox a:last-child').removeClass('disBtn')
+        }
+      }
+    }
+
+    function load(page) {
+      $.get({
+        url: '/course?page=' + page + '&pageSize=' + pageSize + '&keyword=' + keyword
+      }, function (res) {
+        if (res.code == 200) {
+          var data = res.results;
+          total = res.total;
+          size = res.size;
+          var html = '';
+          // 处理导航
+          $('.panel-footer .pull-right').html(`当前页数 ${page} 总页数${size} 共 ${total} 条`)
+          // 每一次进入都先清空掉
+          $('.tbody').empty()
+          for (var i = 0; i < data.length; i++) {
+            html +=
+              `   <tr>
+                  <td>${data[i].cid}</td>
+                  <td>${data[i].name}</td>
+                  <td>${data[i].dayofweek}</td>
+                  <td>${data[i].number}</td>
+                  <td>${data[i].allow}</td>
+                  <td>${data[i].teacher}</td>
+                  <td>${data[i].briefintro}</td>
+                  <td class='action'>
+                    <a class='btn btn-success' data-sid='${data[i].cid}' data-toggle="modal" data-target="#myModal" title='Zoom'>
+                      <i class='icon-zoom-in'></i>
+                    </a>
+                    <a class='btn btn-info' href='#' data-sid='${data[i].cid}' data-toggle="modal" data-target="#myModal">
+                      <i class='icon-edit'></i>
+                    </a>
+                    <a class='btn btn-danger' href='#' data-sid='${data[i].cid}'>
+                      <i class='icon-trash'></i>
+                    </a>
+                  </td>
+                </tr>`
+          }
+          $('.tbody').append(html);
+          if (flag && total > 1) {
+            // 只需要加载一次，就是刚加入的时候
+            pageShow(res)
+          }
+        }
+
+      })
+    }
+    // 将获取的数据设置进去
+    function setInfo(cid){
+      $.ajax({
+        url: '/course/info',
+        type: 'post',
+        data:{
+          cid: cid
+        },
+        success:function(res){
+          if(res.code == 200){
+            var data = res.results[0];
+            $('#user_name').val(data.name);
+            $('#user_dayofweek').val(data.dayofweek);
+            $('#user_number').val(data.number);
+            $('#user_teacher').val(data.teacher);
+            $('#briefintro').val(data.briefintro);
+
+            // 处理多选框选中事件
+            var a = []; // 定义一个数组保存下需要选中的值
+            for(var i in data.allow){
+              $('input[type=checkbox]').each( function(j){
+                // 首先是需要让所有的多选框取消掉选中状态
+                $('input[type=checkbox]').eq(j).prop('checked',false)
+                if(data.allow[i] == $('input[type=checkbox]')[j].value){
+                  a.push(j)
+                }
+              })
+              
+            }
+            for(var i in a){
+              $('input[type=checkbox]').eq(a[i]).prop('checked',true)
+            }
+
+          }else{
+            alert(res.msg)
+          }
+        }
+      })
+    };
+    // 点击编辑
+    $('.tbody').on('click', '.btn-info', function (e) {
+      // 获取当前选择元素的sid
+      var cid = $(this).attr('data-sid');
+      // 当前选择的
+      setInfo(cid)
+      $('.modal-body input').prop('disabled',false)
+      $('#briefintro').prop('disabled',false)
+      $('#myModalLabel').html('编辑信息');
+      $('.modal .btn-default').show();
+    })
+
+    // 点击确定按钮，实现编辑
+    $('.modal .btn-primary').on('click', function () {
+      // 处理多选框
+      var gradeArr = new Array();
+      $('input[type=checkbox]').each(function(i){
+        if( $('input[type=checkbox]').eq(i).prop('checked')){
+          gradeArr.push($('input[type=checkbox]').eq(i).val())
+        }
+      }) 
+      console.log(gradeArr)
+      var updateData = {
+            "name" :   $('#user_name').val(),
+            "dayofweek" : $('#user_dayofweek').val(),
+            "number" : $('#user_number').val(),
+            "allow" :  ['初一','初二'],
+            "teacher" : $('#user_teacher').val(),
+            "briefintro" : $('#briefintro').val()
+      };
+      $.post('/course/' + $('.btn-info').attr('data-sid'),updateData ,function( res){
+        if(res.code == 200 ){
+           flag = false;
+            load(Newpage)
+            $('#myModal').modal('hide');
+        }
+        alert(res.msg)
+      })
+    })
+    // 点击查看
+    $('.tbody').on('click', '.btn-success', function (e) {
+      // 获取当前选择元素的sid
+      var cid = $(this).attr('data-sid');
+      setInfo(cid);
+      $('.modal-body input').prop('disabled',true)
+      $('#briefintro').prop('disabled',true)
+      $('#myModalLabel').html('查看信息');
+      $('.modal .btn-default').hide();
+    })
+
+    // 点击删除
+    $('.tbody').on('click', '.btn-danger', function (e) {
+      var that = $(this);
+      if (!confirm('当前数据将无法恢复，确定删除吗？')) {
+        return false;
+      } else {
+        var sid = $(this).attr('data-sid')
+        console.log(sid);
+
+        // 调用删除接口
+        $.ajax({
+          type: 'delete',
+          url: '/students/' + sid,
+          success: function (res) {
+            if (res.code == 200) {
+              //  删除当前的
+              flag = false;
+              load(Newpage)
+            }
+            alert(res.msg)
+          },
+          fail: (err) => {
+            console.log(err)
+          }
+        })
+
+      }
+    })
+
+    // 模糊查询
+    $('.searchVal').on('input', function () {
+      keyword = $('.searchVal').val()
+      $('#pagenavbox').empty()
+      load(Newpage)
+    })
+    var timer;
+    $('#search').click(function () {
+      keyword = $('.searchVal').val();
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        flag = false;
+        load(Newpage)
+      }, 1000)
+    })
+  </script>
+</body>
+
+</html>

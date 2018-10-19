@@ -9,18 +9,9 @@
   <meta content='' name='description'>
   <meta content='' name='keywords'>
   <link href="/assets/stylesheets/application-a07755f5.css" rel="stylesheet" type="text/css" />
-  <link href="/assets/stylesheets/ui.jqgrid.css" rel="stylesheet" type="text/css" />
   <link href="/assets/stylesheets/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="/assets/stylesheets/pagecommon.css">
 </head>
-<style>
-  .student .modal-dialog{
-    margin: 200px auto;
-  }
-  .student .input-group{
-    margin: 10px 0;
-  }
-</style>
 
 <body class='main page'>
   <% include common/header.ejs %>
@@ -45,12 +36,17 @@
 
         <div class="panpel-tool" style="margin: 20px 20px 0">
           <div class="row">
-            <div class="col-lg-4">
+            <div class="col-sm-4">
               <div class="input-group">
                 <input type="text" class="form-control searchVal" placeholder="Search for...">
                 <span class="input-group-btn">
                   <button class="btn btn-default" id="search" type="button">查询</button>
                 </span>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="input-group">
+                <a href="/students/download" rel="external" target="_blank" class="btn btn-success" id="down-exc" type="button">下载excel文件</a>
               </div>
             </div>
           </div>
@@ -109,12 +105,12 @@
                 <span class="input-group-addon">年级</span>
                 <!-- <input type="text" id="user_grade" class="form-control" placeholder="请输入年级" aria-describedby="basic-addon1">-->
                 <select class="form-control" id="user_grade" >
-                  <option value="1">初一</option>
-                  <option value="2">初二</option>
-                  <option value="3">初三</option>
-                  <option value="4">高一</option>
-                  <option value="5">高二</option>
-                  <option value="6">高三</option>
+                  <option value="初一">初一</option>
+                  <option value="初二">初二</option>
+                  <option value="初三">初三</option>
+                  <option value="高一">高一</option>
+                  <option value="高二">高二</option>
+                  <option value="高三">高三</option>
                 </select> 
               </div>
             </div>
@@ -137,8 +133,6 @@
   <script type="text/javascript" src="/js/PageNav.js"></script>
 
   <script>
-    // 定义数组
-    var gradeArr = ['','初一', '初二', '初三', '高一', '高二', '高三'];
     // 定义变量
     var page = 1,
       pageSize = 20;
@@ -167,7 +161,7 @@
                   <td>${data[i].sid}</td>
                   <td>${data[i].name}</td>
                   <td>${data[i].sex}</td>
-                  <td>${gradeArr[data[i].grade]}</td>
+                  <td>${data[i].grade}</td>
                   <td>${data[i].password}</td>
                   <td class='action'>
                     <a class='btn btn-success' data-sid='${data[i].sid}' data-toggle="modal" data-target="#myModal" data-name="${data[i].name}" data-sex="${data[i].sex}" data-grade="${data[i].grade}" href='javascript:;' title='Zoom'>
@@ -199,7 +193,11 @@
           // 判断当前上一页下一页的状态
           if (page == 1) {
             $('#pagenavbox a:first-child').addClass('disBtn')
-            $('#pagenavbox a:last-child').removeClass('disBtn')
+            if(res.size == 1){
+              $('#pagenavbox a:last-child').addClass('disBtn')
+            }else{
+              $('#pagenavbox a:last-child').removeClass('disBtn')
+            }
           } else {
             if (page == res.size) {
               $('#pagenavbox a:first-child').removeClass('disBtn')

@@ -15,10 +15,10 @@ const StudentSchema = new mongoose.Schema({
 StudentSchema.statics.importStudent = function(data){
     // 定义字母表
     var str = 'QWERTYUIOPASDFGHJKLZXCVBNM123456789qwertyuiopasdfghjklzxcvbnm';
-
+console.log(data)
     // 删除全部  - 直接操作  
     mongoose.connection.collection('students').drop(function(){
-        // 再插入,
+        // 再插入d,
         for( var i = 0; i < data.length; i++){
             for(var j = 1; j < data[i].data.length; j++){
 
@@ -31,7 +31,7 @@ StudentSchema.statics.importStudent = function(data){
                     sid: data[i].data[j][0],
                     name: data[i].data[j][1],
                     sex: data[i].data[j][2],
-                    grade: i+ 1,
+                    grade: data[i].name,
                     password: password,
                     noPassword: false
                 })
