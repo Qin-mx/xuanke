@@ -115,7 +115,7 @@
               </div>
               <div class="input-group">
                 <span class="input-group-addon">人数</span>
-                <input type="text" id="user_number" class="form-control" placeholder="请输入性别" aria-describedby="basic-addon1">
+                <input type="text" id="user_number" class="form-control" placeholder="请输入人数" aria-describedby="basic-addon1">
               </div>
               <div class="input-group">
                 <span class="input-group-addon">年级</span>
@@ -180,6 +180,7 @@
     var total, size; // 总数和当前共多少页
     var Newpage = 1; //当前选中的页数
     var keyword = ''; // 定义输入查询
+    var cid; // 需要获取当前打开的cid
     load(page)
     // 定义函数 -- 分页
     function pageShow(res) {
@@ -301,17 +302,21 @@
     // 点击编辑
     $('.tbody').on('click', '.btn-info', function (e) {
       // 获取当前选择元素的sid
-      var cid = $(this).attr('data-sid');
+      cid = $(this).attr('data-sid');
       // 当前选择的
       setInfo(cid)
-      $('.modal-body input').prop('disabled',false)
-      $('#briefintro').prop('disabled',false)
+      $('.modal-body input').prop('disabled',false);
+      $('#briefintro').prop('disabled',false);
+      $('#user_dayofweek').prop('disabled',false)
       $('#myModalLabel').html('编辑信息');
       $('.modal .btn-default').show();
     })
 
     // 点击确定按钮，实现编辑
     $('.modal .btn-primary').on('click', function () {
+      if($('#myModalLabel').html() !== '编辑信息'){
+          return  $('#myModal').modal('hide');
+      }
       // 处理多选框
       var gradeArr = new Array();
       $('input[type=checkbox]').each(function(i){
@@ -319,22 +324,28 @@
           gradeArr.push($('input[type=checkbox]').eq(i).val())
         }
       }) 
-      console.log(gradeArr)
+
       var updateData = {
             "name" :   $('#user_name').val(),
             "dayofweek" : $('#user_dayofweek').val(),
             "number" : $('#user_number').val(),
-            "allow" :  ['初一','初二'],
+            "allow" :  gradeArr,
             "teacher" : $('#user_teacher').val(),
             "briefintro" : $('#briefintro').val()
       };
-      $.post('/course/' + $('.btn-info').attr('data-sid'),updateData ,function( res){
-        if(res.code == 200 ){
+      $.ajax({
+        url:'/course/' + cid,
+        type: 'post',
+        data:updateData,
+        traditional: true,
+        success: function(res){
+          if(res.code == 200 ){
            flag = false;
             load(Newpage)
             $('#myModal').modal('hide');
         }
         alert(res.msg)
+        }
       })
     })
     // 点击查看
@@ -343,6 +354,7 @@
       var cid = $(this).attr('data-sid');
       setInfo(cid);
       $('.modal-body input').prop('disabled',true)
+      $('#user_dayofweek').prop('disabled',true)
       $('#briefintro').prop('disabled',true)
       $('#myModalLabel').html('查看信息');
       $('.modal .btn-default').hide();
@@ -354,13 +366,13 @@
       if (!confirm('当前数据将无法恢复，确定删除吗？')) {
         return false;
       } else {
-        var sid = $(this).attr('data-sid')
-        console.log(sid);
+        var cid = $(this).attr('data-sid')
+        console.log(cid);
 
         // 调用删除接口
         $.ajax({
           type: 'delete',
-          url: '/students/' + sid,
+          url: '/course/' + cid,
           success: function (res) {
             if (res.code == 200) {
               //  删除当前的
@@ -376,21 +388,25 @@
 
       }
     })
-
+    var timer;
     // 模糊查询
     $('.searchVal').on('input', function () {
       keyword = $('.searchVal').val()
-      $('#pagenavbox').empty()
-      load(Newpage)
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        $('#pagenavbox').empty()
+        flag = false;
+        load(Newpage)
+      }, 100)
     })
-    var timer;
+   
     $('#search').click(function () {
       keyword = $('.searchVal').val();
       clearTimeout(timer);
       timer = setTimeout(function () {
         flag = false;
         load(Newpage)
-      }, 1000)
+      }, 100)
     })
   </script>
 </body>

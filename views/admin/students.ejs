@@ -12,7 +12,14 @@
   <link href="/assets/stylesheets/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="/assets/stylesheets/pagecommon.css">
 </head>
-
+<style>
+  .student .modal-dialog{
+      margin: 200px auto;
+    }
+    .student .input-group{
+      margin: 10px 0;
+    }
+  </style>
 <body class='main page'>
   <% include common/header.ejs %>
   <div id='wrapper'>
@@ -226,12 +233,13 @@
       $('#user_grade').val(options).prop({disabled: false});
       $('#myModalLabel').html('编辑信息');
       $('.modal .btn-default').show();
-
-      console.log('编辑当前数据' + $('#user_sid').val())
     })
   
     // 点击确定按钮，实现编辑
     $('.modal .btn-primary').on('click',function(){
+        if($('#myModalLabel').html() !== '编辑信息'){
+          return  $('#myModal').modal('hide');
+        }
         if(!$('#user_name').val()){
           return alert('学生姓名不能为空')
         }

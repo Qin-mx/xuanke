@@ -8,6 +8,7 @@ const StudentSchema = new mongoose.Schema({
     "grade": String , // 定义 1- 初一 ； 2 - 初二 ； 3 - 初三； 4 - 高一； 5 - 高二； 6- 高三
     "password": String,
     'noPassword': Boolean,
+    "mycourses": [String]
 })
 
 

@@ -1,0 +1,50 @@
+<!-- Navbar -->
+<div class='navbar navbar-default' id='navbar'>
+    <a class='navbar-brand' href='/'>
+        <i class='icon-beer'></i>
+        学生管理系统
+    </a>
+    <ul class='nav navbar-nav pull-right'>
+        <li class='dropdown user'>
+            <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
+                <i class='icon-user'></i>
+                <strong>当前用户 -
+                    <%= name %>(<%= sid %>)</strong>
+                <b class='caret'></b>
+            </a>
+            <ul class='dropdown-menu'>
+                <li>
+                    <a href='/editpwd'>修改密码</a>
+                </li>
+                <li class='divider'></li>
+                <li>
+                    <a href="javascript:;" class="logout">退出登录</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<!-- jQuery -->
+<script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+<script>
+    $('.logout').click(() => {
+        $.get('/logout', (res) => {
+            if (res.code == 200) {
+                window.location.href = '/login';
+            }
+        })
+    })
+
+    // 校验登录状态
+    $.get('checklogin',function(res){
+        // 如果当前不正确，则跳转到登录页
+        if(res.code == 404 ){
+            window.location.href = '/login';
+            alert('当前账号未登录')
+            sessionStorage.login = false;
+        }else{
+            sessionStorage.login = true;
+        }
+    })
+
+</script>

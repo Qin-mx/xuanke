@@ -4,47 +4,18 @@
 <head>
   <meta charset='utf-8'>
   <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
-  <title>Tables</title>
+  <title>学生管理系统</title>
   <meta content='lab2023' name='author'>
   <meta content='' name='description'>
   <meta content='' name='keywords'>
   <link href="/assets/stylesheets/application-a07755f5.css" rel="stylesheet" type="text/css" />
   <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="/assets/stylesheets/pagecommon.css">
 
 </head>
 
 <body class='main page'>
-  <!-- Navbar -->
-  <div class='navbar navbar-default' id='navbar'>
-    <a class='navbar-brand' href='#'>
-      <i class='icon-beer'></i>
-      学生管理系统
-    </a>
-    <ul class='nav navbar-nav pull-right'>
-      <li>
-        <a href='#'>
-          <i class='icon-cog'></i>
-          设置
-        </a>
-      </li>
-      <li class='dropdown user'>
-        <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
-          <i class='icon-user'></i>
-          <strong>当前用户 - 小明</strong>
-          <b class='caret'></b>
-        </a>
-        <ul class='dropdown-menu'>
-          <li>
-            <a href='#'>重置密码</a>
-          </li>
-          <li class='divider'></li>
-          <li>
-            <a href="/">退出登录</a>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </div>
+  <% include common/header.ejs %>
   <div id='wrapper'>
     <!-- Sidebar -->
     <section id='sidebar'>
@@ -52,9 +23,9 @@
       <ul id='dock'>
         <li class='launcher active'>
           <i class='icon-dashboard'></i>
-          <a href="dashboard.html">选课状态</a>
+          <a href="javascript:;">课程列表</a>
         </li>
-        <li class='launcher'>
+        <!-- <li class='launcher'>
           <i class='icon-file-text-alt'></i>
           <a href="forms.html">学生管理</a>
         </li>
@@ -65,16 +36,16 @@
         <li class='launcher dropdown hover'>
           <i class='icon-flag'></i>
           <a href='#'>报表</a>
-        </li>
+        </li> -->
       </ul>
       <div data-toggle='tooltip' id='beaker' title='Made by lab2023'></div>
     </section>
     <!-- Tools -->
     <section id='tools'>
       <ul class='breadcrumb' id='breadcrumb'>
-        <li class='title'>选课状态</li>
-        <li><a href="#">Lorem</a></li>
-        <li class='active'><a href="#">ipsum</a></li>
+        <li class='title'>课程列表</li>
+        <!-- <li><a href="#">Lorem</a></li>
+        <li class='active'><a href="#">ipsum</a></li> -->
       </ul>
     </section>
     <!-- Content -->
@@ -82,382 +53,111 @@
       <div class='panel panel-default grid'>
         <div class='panel-heading'>
           <i class='icon-table icon-large'></i>
-          Default Table
-          <div class='panel-tools'>
-            <div class='btn-group'>
-              <a class='btn' href='#'>
-                <i class='icon-wrench'></i>
-                Settings
-              </a>
-              <a class='btn' href='#'>
-                <i class='icon-filter'></i>
-                Filters
-              </a>
-              <a class='btn' data-toggle='toolbar-tooltip' href='#' title='Reload'>
-                <i class='icon-refresh'></i>
-              </a>
-            </div>
-            <div class='badge'>3 record</div>
-          </div>
+          课程列表
         </div>
         <div class='panel-body filters'>
-          <div class='row'>
-            <div class='col-md-9'>
-              Add your custom filters here...
-            </div>
-            <div class='col-md-3'>
-              <div class='input-group'>
-                <input class='form-control' placeholder='Quick search...' type='text'>
-                <span class='input-group-btn'>
-                  <button class='btn' type='button'>
-                    <i class='icon-search'></i>
-                  </button>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <table class='table'>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-              <th class='actions'>
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class='success'>
-              <td>1</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr class='danger'>
-              <td>2</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr class='warning'>
-              <td>3</td>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr class='active'>
-              <td>4</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr class='disabled'>
-              <td>5</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>6</td>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>7</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>8</td>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>9</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                  <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                  <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                  <i class='icon-trash'></i>
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class='panel-footer'>
-          <ul class='pagination pagination-sm'>
-            <li>
-              <a href='#'>«</a>
-            </li>
-            <li class='active'>
-              <a href='#'>1</a>
-            </li>
-            <li>
-              <a href='#'>2</a>
-            </li>
-            <li>
-              <a href='#'>3</a>
-            </li>
-            <li>
-              <a href='#'>4</a>
-            </li>
-            <li>
-              <a href='#'>5</a>
-            </li>
-            <li>
-              <a href='#'>6</a>
-            </li>
-            <li>
-              <a href='#'>7</a>
-            </li>
-            <li>
-              <a href='#'>8</a>
-            </li>
-            <li>
-              <a href='#'>»</a>
-            </li>
-          </ul>
-          <div class='pull-right'>
-            Showing 1 to 10 of 32 entries
-          </div>
-        </div>
-      </div>
-      <div class='panel panel-default grid'>
-        <div class='panel-heading'>
-          <i class='icon-table icon-large'></i>
-          Padding Table
-        </div>
-        <table class='table'>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class='panel panel-default grid'>
-        <div class='panel-heading'>
-          <i class='icon-table icon-large'></i>
-          Bordered Table
-        </div>
-        <div class='panel-body'>
-          <table class='table table-bordered'>
+          <table class='table'>
             <thead>
               <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
+                <th style="width:55px">编号</th>
+                <th width="10%">名称</th>
+                <th width="5%">日期</th>
+                <th width="5%">人数</th>
+                <th width="15%">年级</th>
+                <th width="10%">教师</th>
+                <th width="40%">简介</th>
+                <th>报名</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
+            <tbody class="tbody">
             </tbody>
           </table>
         </div>
-      </div>
-      <div class='panel panel-default grid'>
-        <div class='panel-heading'>
-          <i class='icon-table icon-large'></i>
-          Condensed Table
+
+        <div class='panel-footer' style="min-height: 66px;">
+          <div id="pagenavbox"></div>
         </div>
-        <table class='table table-condensed'>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
   </div>
 
-  <!-- jQuery -->
-  <script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+
 
   <!-- Bootstrap Core JavaScript -->
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/js/PageNav.js"></script>
+
+  <script>
+    // 定义变量
+    var page = 1,
+      pageSize = 20;
+    var flag = true; // 开关，判断是否需要开启回调
+    var total, size; // 总数和当前共多少页
+    var Newpage = 1; //当前选中的页数
+    var keyword = ''; // 定义输入查询
+    // 定义接口地址
+    var url = '/course?page=' + page + '&pageSize=' + pageSize;
+    (function load() {
+      $.get(url, function (res) {
+        var data = res.results
+        $.each(data, function (i) {
+          var $tr = $('<tr></tr>'); // 
+          $tr.append('<td>' + data[i].cid + '</td>');
+          $tr.append('<td>' + data[i].name + '</td>')
+          $tr.append('<td>' + data[i].dayofweek + '</td>')
+          $tr.append('<td>' + data[i].number + '</td>')
+          $tr.append('<td>' + data[i].allow + '</td>')
+          $tr.append('<td>' + data[i].teacher + '</td>')
+          $tr.append('<td>' + data[i].briefintro + '</td>')
+          $tr.append('<td><button type="button" class="btn btn-success">报名</button></td>')
+          $('.tbody').append($tr);
+        })
+
+
+        if (flag) {
+          // 只需要加载一次，就是刚加入的时候
+          pageShow(res)
+        }
+      })
+    })();
+
+    // 定义函数 -- 分页
+    function pageShow(res) {
+      new PageNav({
+        boxid: 'pagenavbox', // 当前元素的id
+        page: page, // 当前页数
+        pageAmount: res.size, //总页数 
+        change: (num) => {
+          flag = false;
+          Newpage = num
+          load(num) // 这个是ajax请求
+        }
+      })
+
+      // 判断当前上一页下一页的状态
+      if (page == 1) {
+        $('#pagenavbox a:first-child').addClass('disBtn')
+        if (res.size == 1) {
+          $('#pagenavbox a:last-child').addClass('disBtn')
+        } else {
+          $('#pagenavbox a:last-child').removeClass('disBtn')
+        }
+
+      } else {
+        if (page == res.size) {
+          $('#pagenavbox a:first-child').removeClass('disBtn')
+          $('#pagenavbox a:last-child').addClass('disBtn')
+        } else {
+          $('#pagenavbox a:first-child').removeClass('disBtn')
+          $('#pagenavbox a:last-child').removeClass('disBtn')
+        }
+      }
+    }
+    //判断当前是否可以执行
+    $.get('check',function(res){
+      console.log(res)
+    })
+  </script>
 </body>
 
 </html>

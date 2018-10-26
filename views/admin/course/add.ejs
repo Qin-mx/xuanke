@@ -12,6 +12,18 @@
   <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
 </head>
+<style>
+
+  .form-group .input-group{
+      margin: 10px 0;
+    }
+    .group-grades input{
+      height: auto !important;
+    }
+    .group-grades{
+      height: auto;
+    }
+  </style>
 
 <body class='main page'>
   <% include ../common/header.ejs %>
@@ -21,7 +33,7 @@
     <!-- Tools -->
     <section id='tools'>
       <ul class='breadcrumb' id='breadcrumb'>
-        <li ><a href="/admin/course">选课状态</a></li>
+        <li><a href="/admin/course">选课状态</a></li>
         <li><a href="/admin/course/import">导入选课内容</a></li>
         <li class='title'>添加</li>
       </ul>
@@ -31,55 +43,137 @@
       <div class='panel panel-default grid'>
         <div class='panel-heading'>
           <i class='icon-table icon-large'></i>
-          添加学生
+          添加课程
         </div>
         <div class='panel-body filters'>
           <div class="form-group">
-            <div class="col-lg-4">
+            <div class="col-lg-6">
               <div class="input-group">
-                <span class="input-group-addon">学号</span>
-                <input type="text" id="user_sid" class="form-control" checkVaild placeholder="请输入学号" aria-describedby="basic-addon1">
+                <span class="input-group-addon">编号</span>
+                <input type="text" id="user_cid" class="form-control" aria-describedby="basic-addon1" placeholder="请输入课程学号">
               </div>
               <div class="input-group">
-                <span class="input-group-addon">姓名</span>
-                <input type="text" id="user_name" class="form-control" checkVaild placeholder="请输入姓名" aria-describedby="basic-addon1">
+                <span class="input-group-addon">名称</span>
+                <input type="text" id="user_name" class="form-control" aria-describedby="basic-addon1" placeholder="请输入课程名称">
               </div>
               <div class="input-group">
-                <span class="input-group-addon">性别</span>
-                <input type="text" id="user_sex" class="form-control" checkVaild placeholder="请输入性别" aria-describedby="basic-addon1">
-              </div>
-              <div class="input-group">
-                <span class="input-group-addon">年级</span>
-                <select class="form-control" id="user_grade">
-                  <option value="初一">初一</option>
-                  <option value="初二">初二</option>
-                  <option value="初三">初三</option>
-                  <option value="高一">高一</option>
-                  <option value="高二">高二</option>
-                  <option value="高三">高三</option>
+                <span class="input-group-addon">日期</span>
+                <select class="form-control" id="user_dayofweek">
+                  <option value="周一">周一</option>
+                  <option value="周二">周二</option>
+                  <option value="周三">周三</option>
+                  <option value="周四">周四</option>
+                  <option value="周五">周五</option>
                 </select>
               </div>
               <div class="input-group">
-                <span class="input-group-addon">密码</span>
-                <input type="text" id="user_pass" class="form-control" checkVaild placeholder="请输入密码" aria-describedby="basic-addon1">
+                <span class="input-group-addon">人数</span>
+                <input type="text" id="user_number" class="form-control" placeholder="请输入人数" aria-describedby="basic-addon1">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">年级</span>
+                <div class="form-control group-grades">
+                  <span>
+                    <input type="checkbox" name="grade" value="初一">
+                    <span>初一</span>
+                  </span>
+                  <span>
+                    <input type="checkbox" name="grade" value="初二">
+                    <span>初二</span>
+                  </span>
+                  <span>
+                    <input type="checkbox" name="grade" value="初三">
+                    <span>初三</span>
+                  </span>
+
+                  <span>
+                    <input type="checkbox" name="grade" value="高一">
+                    <span>高一</span>
+                  </span>
+                  <span>
+                    <input type="checkbox" name="grade" value="高二">
+                    <span>高二</span>
+                  </span> <span>
+                    <input type="checkbox" name="grade" value="高三">
+                    <span>高三</span>
+                  </span>
+                </div>
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">教师</span>
+                <input type="text" id="user_teacher" class="form-control" placeholder="请输入教师" aria-describedby="basic-addon1">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">简介</span>
+                <textarea name="briefintro" class="form-control" id="briefintro" cols="30" rows="10" placeholder="请编辑简介"
+                  style="width:100%;float: left;resize: none"></textarea>
               </div>
             </div>
           </div>
 
         </div>
+        
         <div class='panel-footer'>
+          <a href="http://wpa.qq.com/msgrd?v=3&uin=914869113&site=qq&menu=yes" target="_blank">QQ客服</a>
+
           <button type="button" class="btn btn-default btn-cz">重置</button>
-          <button type="button" class="btn btn-primary btn-sure" disabled>确定</button>
+          <button type="button" class="btn btn-primary btn-sure" >确定</button>
         </div>
       </div>
     </div>
+    
   </div>
-
   <!-- jQuery -->
   <script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
 
   <!-- Bootstrap Core JavaScript -->
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+    // 点击确定向后台发送请求
+    $('.btn-sure').click(function () {
+      // 获取当前选择的数据
+       // 处理多选框
+       var data = {};
+       var gradeArr = new Array();
+        $('input[type=checkbox]').each(function(i){
+          if( $('input[type=checkbox]').eq(i).prop('checked')){
+            gradeArr.push($('input[type=checkbox]').eq(i).val())
+          }
+        }) 
+      data = {
+          cid:  $('#user_cid').val(),
+          name: $('#user_name').val(),
+          dayofweek:  $('#user_dayofweek').val(),
+          number:  $('#user_number').val(),
+          teacher: $('#user_teacher').val(),
+          briefintro:  $('#briefintro').val(), 
+          allow:gradeArr.join(','),
+      }
+
+      if(  !/^\d$/.test(data.cid)  ){
+        return alert('请填写需要的数据！')
+      }
+      $.post('/course',data,function(res){
+        if(res.code == 200 ){
+          clearDIVBtn()
+        }
+        alert(res.msg)
+        
+      })
+    })
+
+    // 重置
+    function clearDIVBtn() {
+      $('input[type="text"]').val('')
+      $('input[type="checkbox"]').prop('checked',false)
+      $('#briefintro').val('');
+      $('#user_dayofweek').val('周一')
+      // $('[checkVaild]').clearTip()
+    }
+    $('.btn-cz').click(() => {
+      clearDIVBtn()
+    });
+  </script>
 </body>
 
 </html>

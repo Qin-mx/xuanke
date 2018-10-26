@@ -107,6 +107,11 @@ exports.doAdminStudentsImport = (req, res) => {
 
 // 获取全部数据
 exports.getAllStudents = function (req, res) {
+    // 在这个里面判断是否登录了
+    // if(req.session.login != true ){
+    //     res.redirect('/login')
+    //     return;
+    // }
     // 获取参数
     var pageSize = parseInt(url.parse(req.url, true).query.pageSize),
         page = parseInt(url.parse(req.url, true).query.page - 1),
@@ -203,7 +208,7 @@ exports.addStudent = function (req, res) {
                     password: fields.password,
                     noPassword: false
                 })
-                s.update((err, data) => {
+                s.save((err, data) => {
                     if (err) {
                         res.json({
                             msg: '添加数据失败',
@@ -399,6 +404,7 @@ exports.getAllCourse = function (req, res) {
         pageSize = parseInt(url.parse(req.url, true).query.pageSize), // 一页需要多少
         keyword = url.parse(req.url, true).query.keyword;
     // 定义排序的参数，可用可不用
+    console.log(keyword)
     var sordNumber = 'asc' ? 1 : -1;
     if (keyword == undefined || keyword == '') {
         var filter = {}
@@ -412,10 +418,16 @@ exports.getAllCourse = function (req, res) {
                     name: reg
                 },
                 {
+                    allow: reg
+                },
+                {
                     teacher: reg
                 },
                 {
                     dayofweek: reg
+                },
+                {
+                    briefintro: reg
                 }
             ]
         }
@@ -488,7 +500,7 @@ exports.doGetCourseIdinfo = function (req, res) {
 
 // 修改选课数据
 exports.updateCourse = function (req, res) {
-    var cid = req.params.sid;
+    var cid = req.params.cid;
     var form = new formidable.IncomingForm();
 
     form.parse(req, function (err, fields, files) {
@@ -498,17 +510,21 @@ exports.updateCourse = function (req, res) {
                 code: '404'
             })
         }
+        // 这是一个笨办法  --- 可以让前台传一个字符
+        // var brr = Object.keys(fields); // 转换数组
+        // var str = brr[3];
+        console.log(fields.allow)
         var updateData = {
             "cid": cid,
             "name" : fields.name,
             "dayofweek" : fields.dayofweek,
             "number" : fields.number,
-            "allow" :  fields['allow[]'],
+            "allow" :  fields.allow,
             "teacher" : fields.teacher,
             "briefintro" : fields.briefintro
         };
-        console.log(fields)
-        Course.updateOne(updateData, function (err, result) {
+        // 有误
+        Course.updateOne({cid}, updateData,function (err, result) {
             //    如果不存在
             if (err) {
                 res.json({
@@ -525,15 +541,33 @@ exports.updateCourse = function (req, res) {
     });
 }
 
+// 删除当前的选课
+exports.removeCourse = function(req,res){
+    var cid = req.params.cid;
+    // 先判断当前数据是否存在
+    Course.deleteMany({cid},function(err,data){
+        if(err){
+            res.json({
+                msg: '当前数据不存在',
+                code: 404
+            })
+        }else{
+            res.json({
+                msg: '删除数据成功',
+                code: 200
+            })
+        }
+    })
+}
 
 // 添加选课
 exports.addCourse = function (req, res) {
     var form = new formidable.IncomingForm();
     // 定义正则表达式
-    var regSid = /^[\d]{9}$/,
-        regName = /^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/,
-        regSex = /^(男|女)$/,
-        regPass = /^[0-9a-zA-Z]{6}$/;
+    // var regSid = /^[\d]{9}$/,
+    //     regName = /^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/,
+    //     regSex = /^(男|女)$/,
+    //     regPass = /^[0-9a-zA-Z]{6}$/;
 
     form.parse(req, function (err, fields, files) {
         if (err) {
@@ -542,47 +576,53 @@ exports.addCourse = function (req, res) {
                 code: '404'
             })
         }
-        if (!regSid.test(fields.sid) || !regName.test(fields.name) || !regSex.test(fields.sex) || !regPass.test(fields.password)) {
-            return res.json({
-                msg: '数据填写不完整',
-                code: '404'
-            })
-        }
+        // if (!regSid.test(fields.sid) || !regName.test(fields.name) || !regSex.test(fields.sex) || !regPass.test(fields.password)) {
+        //     return res.json({
+        //         msg: '数据填写不完整',
+        //         code: '404'
+        //     })
+        // }
 
         // 检查合法性 是否添加过学号
-        Student.checkedSid(fields.sid, function (result) {
-            console.log('dangq ' + result)
-            if (result) {
-                // 表示当前sid不存在
-                console.log(fields)
-                var s = new Student({
-                    sid: fields.sid,
-                    name: fields.name,
-                    sex: fields.sex,
-                    grade: fields.grade,
-                    password: fields.password,
-                    noPassword: false
-                })
-                s.save((err, data) => {
-                    if (err) {
-                        res.json({
-                            msg: '添加数据失败',
-                            code: '404'
-                        })
-                    } else {
-                        res.json({
-                            msg: '添加数据成功',
-                            code: '200',
-                        })
-                    }
-                });
-            } else {
+        Course.countDocuments( {cid:fields.cid},function(err,count){
+            if(err){
                 res.json({
-                    msg: '数据库中存在当前学号',
-                    code: '404'
+                    msg: '获取信息失败',
+                    code: 404
                 })
+            }else{
+                if(count != 0 ){
+                   return  res.json({
+                        msg: '当前信息已存在~',
+                        code: 404
+                    })
+                }
+             // 表示当前sid不存在
+             var s = new Course({
+                "cid": fields.cid,
+                "name" : fields.name,
+                "dayofweek" : fields.dayofweek,
+                "number" : fields.number,
+                "allow" :  fields.allow.split(','),
+                "teacher" : fields.teacher,
+                "briefintro" : fields.briefintro
+            })              
+            s.save((err, data) => {
+                if (err) {
+                    res.json({
+                        msg: '添加数据失败',
+                        code: '404'
+                    })
+                } else {
+                    res.json({
+                        msg: '添加数据成功',
+                        code: '200',
+                    })
+                }
+            });                    
             }
         })
+
 
     })
 }
